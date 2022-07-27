@@ -6,6 +6,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "description": "",
+  "repository": "https://github.com/hyper-function-components/svg-icon",
   "keywords": [
     "icon"
   ],
@@ -17,12 +18,21 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@hyper-function/cli-service": "^1.7.3",
+    "@hyper-function/cli-service": "^1.7.4",
+    "@sicons/antd": "^0.12.0",
+    "@sicons/carbon": "^0.12.0",
+    "@sicons/fa": "^0.12.0",
+    "@sicons/ionicons4": "^0.12.0",
+    "@sicons/ionicons5": "^0.12.0",
+    "@sicons/material": "^0.12.0",
     "@sicons/tabler": "^0.12.0",
     "cheerio": "^1.0.0-rc.12",
+    "es-main": "^1.2.0",
     "fs-extra": "^10.1.0",
     "hfc-plugin-typescript": "^1.0.2",
-    "hfc-prop-names": "^1.0.3"
+    "hfc-prop-names": "^1.0.3",
+    "node-localstorage": "^2.2.1",
+    "param-case": "^3.0.4"
   },
   "peerDependencies": {
     "@types/hyper-function-component": "^2.0.0"
