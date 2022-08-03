@@ -1,6 +1,5 @@
 import fs from "fs-extra";
 import { join } from "path";
-import crypto from "crypto";
 import esMain from "es-main";
 import { load } from "cheerio";
 import { execSync } from "child_process";
@@ -12,20 +11,9 @@ const buildTemplateDir = join(process.cwd(), ".hfc", "build-tmpl");
 
 const localStorage = new LocalStorage("./tmp/localStorage");
 
-function getModuleHash(name, version) {
-  const hash = crypto
-    .createHash("sha256")
-    .update(`../../../wfm-entry-${name}-${version}.js`)
-    .digest("base64")
-    .slice(0, 13);
-
-  return hash;
-}
-
 const publishFailed = [];
 
 let wfmHfcPath = "";
-let MODULE_HASH = "";
 async function publishIcon(icon) {
   if (!icon.name || !icon.version || !icon.path) {
     console.log(`icon ${icon.name} is missing name, version or path`);
@@ -85,22 +73,13 @@ async function publishIcon(icon) {
         wfmHfcPath = join(buildDir, "pkg", "wfm", fileName);
       }
     });
-
-    const matchs = wfmEntry.match(/=>t\("(\S+)"/);
-    MODULE_HASH = matchs[1];
   }
 
-  const moduleHash = getModuleHash(icon.name, icon.version);
-
-  wfmEntry = wfmEntry
-    .replace(MODULE_HASH, moduleHash)
-    .replace(/@hyper\.fun\/svg\-icon/g, pkgJson.name);
+  wfmEntry = wfmEntry.replace(/@hyper\.fun\/svg\-icon/g, pkgJson.name);
   await fs.writeFile(wfmEntryPath, wfmEntry);
 
   let wfmHfc = await fs.readFile(wfmHfcPath, "utf8");
   wfmHfc = wfmHfc
-    .replace(`"${MODULE_HASH}"`, `"${moduleHash}"`)
-    .replace(MODULE_HASH, `"${moduleHash}"`)
     .replace(/process\.env\.SVG_ATTRS/g, SVG_ATTRS)
     .replace(/process\.env\.SVG_HTML/g, SVG_HTML);
   await fs.writeFile(wfmHfcPath, wfmHfc);
