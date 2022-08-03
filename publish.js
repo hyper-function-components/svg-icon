@@ -25,6 +25,7 @@ function getModuleHash(name, version) {
 const publishFailed = [];
 
 let wfmHfcPath = "";
+let MODULE_HASH = "";
 async function publishIcon(icon) {
   if (!icon.name || !icon.version || !icon.path) {
     console.log(`icon ${icon.name} is missing name, version or path`);
@@ -74,6 +75,9 @@ async function publishIcon(icon) {
     .replace(/process\.env\.SVG_HTML/g, SVG_HTML);
   await fs.writeFile(esmHfcPath, esmHfc);
 
+  let wfmEntryPath = join(buildDir, "pkg", "wfm", "entry.js");
+  let wfmEntry = await fs.readFile(wfmEntryPath, "utf8");
+
   if (!wfmHfcPath) {
     const fileNames = await fs.readdir(join(buildDir, "pkg", "wfm"));
     fileNames.forEach((fileName) => {
@@ -81,24 +85,25 @@ async function publishIcon(icon) {
         wfmHfcPath = join(buildDir, "pkg", "wfm", fileName);
       }
     });
+
+    const matchs = wfmEntry.match(/=>t\("(\S+)"/);
+    MODULE_HASH = matchs[1];
   }
 
-  const MODULE_HASH = /NGqT5kK0h0Cjo/g;
   const moduleHash = getModuleHash(icon.name, icon.version);
 
-  let wfmHfc = await fs.readFile(wfmHfcPath, "utf8");
-  wfmHfc = wfmHfc
-    .replace(MODULE_HASH, JSON.stringify(moduleHash))
-    .replace(/process\.env\.SVG_ATTRS/g, SVG_ATTRS)
-    .replace(/process\.env\.SVG_HTML/g, SVG_HTML);
-  await fs.writeFile(wfmHfcPath, wfmHfc);
-
-  let wfmEntryPath = join(buildDir, "pkg", "wfm", "entry.js");
-  let wfmEntry = await fs.readFile(wfmEntryPath, "utf8");
   wfmEntry = wfmEntry
     .replace(MODULE_HASH, moduleHash)
     .replace(/@hyper\.fun\/svg\-icon/g, pkgJson.name);
   await fs.writeFile(wfmEntryPath, wfmEntry);
+
+  let wfmHfc = await fs.readFile(wfmHfcPath, "utf8");
+  wfmHfc = wfmHfc
+    .replace(`"${MODULE_HASH}"`, `"${moduleHash}"`)
+    .replace(MODULE_HASH, `"${moduleHash}"`)
+    .replace(/process\.env\.SVG_ATTRS/g, SVG_ATTRS)
+    .replace(/process\.env\.SVG_HTML/g, SVG_HTML);
+  await fs.writeFile(wfmHfcPath, wfmHfc);
 
   await fs.copy(icon.path, join(process.cwd(), "banner.svg"));
 
