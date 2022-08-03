@@ -121,11 +121,13 @@ async function run() {
 
   for (const icon of icons) {
     await publishIcon(icon);
-    break;
   }
 
   if (publishFailed.length) {
-    fs.writeFileSync("publish-failed.json", JSON.stringify(publishFailed));
+    fs.writeFileSync(
+      "publish-failed.json",
+      JSON.stringify(publishFailed, null, 2)
+    );
   }
 }
 
