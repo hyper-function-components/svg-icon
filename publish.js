@@ -2,6 +2,7 @@ import fs from "fs-extra";
 import { join } from "path";
 import esMain from "es-main";
 import { load } from "cheerio";
+import { nanoid } from "nanoid";
 import { execSync } from "child_process";
 import { LocalStorage } from "node-localstorage";
 
@@ -14,6 +15,8 @@ const localStorage = new LocalStorage("./tmp/localStorage");
 const publishFailed = [];
 
 let wfmHfcPath = "";
+let CHUNK_HASH = "";
+let MODULE_HASH = "";
 async function publishIcon(icon) {
   if (!icon.name || !icon.version || !icon.path) {
     console.log(`icon ${icon.name} is missing name, version or path`);
@@ -73,18 +76,36 @@ async function publishIcon(icon) {
         wfmHfcPath = join(buildDir, "pkg", "wfm", fileName);
       }
     });
+
+    const moduleHashMatchs = wfmEntry.match(/=>t\("(\S+)"/);
+    MODULE_HASH = moduleHashMatchs[1];
+
+    const chunkHashMatchs = wfmEntry.match(/r={(\S+):/);
+    CHUNK_HASH = chunkHashMatchs[1].replaceAll('"', "");
+    console.log(CHUNK_HASH, MODULE_HASH);
   }
 
-  wfmEntry = wfmEntry.replace(/@hyper\.fun\/svg\-icon/g, pkgJson.name);
+  const chunkHash = nanoid();
+  const moduleHash = nanoid();
+
+  wfmEntry = wfmEntry
+    .replaceAll(`"${CHUNK_HASH}"`, `"${chunkHash}"`)
+    .replaceAll(`${CHUNK_HASH}`, `"${chunkHash}"`)
+    .replaceAll(MODULE_HASH, moduleHash)
+    .replaceAll("@hyper.fun/svg-icon", pkgJson.name);
   await fs.writeFile(wfmEntryPath, wfmEntry);
 
   let wfmHfc = await fs.readFile(wfmHfcPath, "utf8");
   wfmHfc = wfmHfc
-    .replace(/process\.env\.SVG_ATTRS/g, SVG_ATTRS)
-    .replace(/process\.env\.SVG_HTML/g, SVG_HTML);
+    .replaceAll(`"${MODULE_HASH}"`, `"${moduleHash}"`)
+    .replaceAll(`${MODULE_HASH}`, `"${moduleHash}"`)
+    .replaceAll("process.env.SVG_ATTRS", SVG_ATTRS)
+    .replaceAll("process.env.SVG_HTML", SVG_HTML);
   await fs.writeFile(wfmHfcPath, wfmHfc);
 
   await fs.copy(icon.path, join(process.cwd(), "banner.svg"));
+
+  process.exit(-1);
 
   const out = execSync("npm run publish-hfc -- --skip-build").toString();
   if (out.includes("success")) {

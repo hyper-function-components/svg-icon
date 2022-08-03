@@ -36,5 +36,8 @@
   },
   "optionalDependencies": {
     "@types/hyper-function-component": "^2.0.0"
+  },
+  "dependencies": {
+    "nanoid": "^4.0.0"
   }
 }
