@@ -1,7 +1,7 @@
 import props from "hfc-prop-names";
 
-const svgAttrs: [string, string][] = process.env.SVG_ATTRS as any;
-const svgHtml: string = process.env.SVG_HTML as string;
+const svgAttrs: [string, string][] = process.env.HFC_PUBLIC_SVG_ATTRS as any;
+const svgHtml: string = process.env.HFC_PUBLIC_SVG_HTML as string;
 
 export default class AwesomeHfc {
   static tag = "svg";

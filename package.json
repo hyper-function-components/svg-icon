@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@hyper-function/cli-service": "^1.8.6",
+    "@hyper-function/cli-service": "^1.8.8",
     "@sicons/antd": "^0.12.0",
     "@sicons/carbon": "^0.12.0",
     "@sicons/fa": "^0.12.0",
@@ -36,8 +36,5 @@
   },
   "optionalDependencies": {
     "@types/hyper-function-component": "^2.0.0"
-  },
-  "dependencies": {
-    "nanoid": "^4.0.0"
   }
 }

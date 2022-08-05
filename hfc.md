@@ -1,25 +1,25 @@
-# svg-icon
+# ICON_NAME
 
 ```html render
-<template hfz import:svg-icon="dev">
-  <svg-icon size="44"></svg-icon>
+<template hfz import:ICON_NAME="ICON_VERSION">
+  <ICON_NAME size="44"></ICON_NAME>
 </template>
 ```
 
 ```html
-<template hfz import:svg-icon="dev">
-  <svg-icon size="44"></svg-icon>
+<template hfz import:ICON_NAME="ICON_VERSION">
+  <ICON_NAME size="44"></ICON_NAME>
 </template>
 ```
 
 ```html render
-<template hfz import:svg-icon="dev">
-  <svg-icon size="44" color="green"></svg-icon>
+<template hfz import:ICON_NAME="ICON_VERSION">
+  <ICON_NAME size="44" color="green"></ICON_NAME>
 </template>
 ```
 
 ```html
-<template hfz import:svg-icon="dev">
-  <svg-icon size="44" color="green"></svg-icon>
+<template hfz import:ICON_NAME="ICON_VERSION">
+  <ICON_NAME size="44" color="green"></ICON_NAME>
 </template>
 ```
