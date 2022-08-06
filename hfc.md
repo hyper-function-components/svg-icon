@@ -1,25 +1,25 @@
-# ICON_NAME
+# ${HFC_DOC_ICON_NAME}
 
 ```html render
-<template hfz import:ICON_NAME="ICON_VERSION">
-  <ICON_NAME size="44"></ICON_NAME>
+<template hfz import:${HFC_DOC_ICON_NAME}="dev">
+  <${HFC_DOC_ICON_NAME} size="44"></${HFC_DOC_ICON_NAME}>
 </template>
 ```
 
 ```html
-<template hfz import:ICON_NAME="ICON_VERSION">
-  <ICON_NAME size="44"></ICON_NAME>
+<template hfz import:${HFC_DOC_ICON_NAME}="dev">
+  <${HFC_DOC_ICON_NAME} size="44"></${HFC_DOC_ICON_NAME}>
 </template>
 ```
 
 ```html render
-<template hfz import:ICON_NAME="ICON_VERSION">
-  <ICON_NAME size="44" color="green"></ICON_NAME>
+<template hfz import:${HFC_DOC_ICON_NAME}="dev">
+  <${HFC_DOC_ICON_NAME} size="44" color="green"></${HFC_DOC_ICON_NAME}>
 </template>
 ```
 
 ```html
-<template hfz import:ICON_NAME="ICON_VERSION">
-  <ICON_NAME size="44" color="green"></ICON_NAME>
+<template hfz import:${HFC_DOC_ICON_NAME}="dev">
+  <${HFC_DOC_ICON_NAME} size="44" color="green"></${HFC_DOC_ICON_NAME}>
 </template>
 ```

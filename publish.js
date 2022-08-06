@@ -6,7 +6,6 @@ import { execSync } from "child_process";
 import { LocalStorage } from "node-localstorage";
 
 const icons = fs.readJsonSync("./icons.json");
-const buildDir = join(process.cwd(), ".hfc", "build");
 
 const localStorage = new LocalStorage("./tmp/localStorage");
 
@@ -22,45 +21,34 @@ async function publishIcon(icon) {
   const published = !!localStorage.getItem(publishKey);
 
   if (published) {
-    console.log(icon.name, "already published");
+    // console.log(icon.name, "already published");
     return;
   }
 
   const { SVG_ATTRS, SVG_HTML } = parseSvg(icon.path);
 
   console.log("building icon:", icon.name, icon.version);
+  const env = {
+    ...process.env,
+    HFC_NAME: icon.name,
+    HFC_VERSION: icon.version,
+    HFC_PUBLIC_SVG_ATTRS: SVG_ATTRS,
+    HFC_PUBLIC_SVG_HTML: SVG_HTML,
+    HFC_DOC_ICON_NAME: icon.name,
+  };
+
+  if (icon.description) {
+    env.HFC_DESCRIPTION = icon.description;
+  }
+
+  env.HFC_KEYWORDS = (icon.keywords || []).join(",");
+
   const startTime = Date.now();
   execSync(`npm run build`, {
     cwd: process.cwd(),
-    env: {
-      ...process.env,
-      HFC_NAME: icon.name,
-      HFC_VERSION: icon.version,
-      HFC_PUBLIC_SVG_ATTRS: SVG_ATTRS,
-      HFC_PUBLIC_SVG_HTML: SVG_HTML,
-    },
+    env,
   });
   console.log("build done, used:", Date.now() - startTime, "ms");
-
-  const docHtmlPath = join(buildDir, "doc", "index.html");
-  let docHtml = await fs.readFile(docHtmlPath, "utf8");
-
-  docHtml = docHtml
-    .replaceAll("ICON_NAME", icon.name)
-    .replaceAll("ICON_VERSION", icon.version);
-  await fs.writeFile(docHtmlPath, docHtml);
-
-  const pkgJsonPath = join(buildDir, "pkg", "package.json");
-  const pkgJson = await fs.readJson(pkgJsonPath);
-
-  if (icon.description) {
-    pkgJson.description = icon.description;
-  }
-
-  const keywords = icon.keywords || [];
-  pkgJson.keywords = [...pkgJson.keywords, ...keywords];
-
-  await fs.writeJson(pkgJsonPath, pkgJson);
 
   await fs.copy(icon.path, join(process.cwd(), "banner.svg"));
 

@@ -6,18 +6,21 @@ let SVG_ATTRS;
 let SVG_HTML;
 
 const isProd = process.env.NODE_ENV === "production";
+let docEnv = {};
 
 if (!isProd) {
   ({ SVG_ATTRS, SVG_HTML } = parseSvg(join(process.cwd(), "example.svg")));
+  docEnv.HFC_DOC_ICON_NAME = "svg-icon";
 }
 
 export default {
   entry: "./src/index.ts",
   plugins: [ts()],
-  defineEnv: isProd
+  env: isProd
     ? {}
     : {
-        "process.env.SVG_ATTRS": SVG_ATTRS,
-        "process.env.SVG_HTML": SVG_HTML,
+        HFC_PUBLIC_SVG_ATTRS: SVG_ATTRS,
+        HFC_PUBLIC_SVG_HTML: SVG_HTML,
       },
+  docEnv: {},
 };

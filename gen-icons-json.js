@@ -20,7 +20,7 @@ const carbonSvgs = fs.readdirSync(carbonIconPath);
 
 const icons = [];
 
-const version = "1.3.0";
+const version = "1.3.1";
 
 ionicons4Svgs.forEach((name) => {
   if (!name.endsWith(".svg")) return;
