@@ -25,6 +25,11 @@ async function publishIcon(icon) {
     return;
   }
 
+  // npm package name can nor contain download
+  if (icon.name.split("-").includes("download")) {
+    return;
+  }
+
   const { SVG_ATTRS, SVG_HTML } = parseSvg(icon.path);
 
   console.log("building icon:", icon.name, icon.version);
@@ -54,7 +59,10 @@ async function publishIcon(icon) {
 
   console.log("publishing icon:", icon.name, icon.version);
   const startTime2 = Date.now();
-  const out = execSync("npm run publish-hfc -- --skip-build").toString();
+  const out = execSync("npm run publish-hfc -- --skip-build", {
+    cwd: process.cwd(),
+    env,
+  }).toString();
   if (out.includes("success")) {
     console.log(icon.name, "published, used:", Date.now() - startTime2, "ms");
     localStorage.setItem(publishKey, true);
