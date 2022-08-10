@@ -82,6 +82,7 @@ export function parseSvg(filePath) {
   attrs.xmlns = "http://www.w3.org/2000/svg";
   delete attrs.xlink;
   delete attrs.version;
+  delete attrs.class;
 
   const SVG_ATTRS = JSON.stringify(Object.entries(attrs));
   const SVG_HTML = JSON.stringify(

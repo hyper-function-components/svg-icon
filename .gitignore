@@ -3,3 +3,4 @@ node_modules
 banner.svg
 icons.json
 tmp
+publish-failed.json

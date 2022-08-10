@@ -9,6 +9,7 @@ const materialIconPath = path.join("node_modules", "@sicons/material");
 const faIconPath = path.join("node_modules", "@sicons/fa");
 const tablerIconPath = path.join("node_modules", "@sicons/tabler");
 const carbonIconPath = path.join("node_modules", "@sicons/carbon");
+const featherIconPath = path.join("node_modules", "feather-icons/dist/icons");
 
 const ionicons4Svgs = fs.readdirSync(ionicons4IconPath);
 const ionicons5Svgs = fs.readdirSync(ionicons5IconPath);
@@ -17,10 +18,11 @@ const materialSvgs = fs.readdirSync(materialIconPath);
 const faSvgs = fs.readdirSync(faIconPath);
 const tablerSvgs = fs.readdirSync(tablerIconPath);
 const carbonSvgs = fs.readdirSync(carbonIconPath);
+const featherSvgs = fs.readdirSync(featherIconPath);
 
 const icons = [];
 
-const version = "1.3.1";
+const version = "1.3.0";
 
 ionicons4Svgs.forEach((name) => {
   if (!name.endsWith(".svg")) return;
@@ -117,6 +119,18 @@ carbonSvgs.forEach((name) => {
     description: "",
     keywords: ["carbon", casedName],
     path: path.join(carbonIconPath, name),
+  });
+});
+
+featherSvgs.forEach((name) => {
+  if (!name.endsWith(".svg")) return;
+
+  icons.push({
+    name: "feather-" + name,
+    version,
+    description: "",
+    keywords: ["feather", name],
+    path: path.join(featherIconPath, name),
   });
 });
 
