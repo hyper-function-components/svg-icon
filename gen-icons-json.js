@@ -125,11 +125,12 @@ carbonSvgs.forEach((name) => {
 featherSvgs.forEach((name) => {
   if (!name.endsWith(".svg")) return;
 
+  const n = name.split(".")[0];
   icons.push({
-    name: "feather-" + name,
+    name: "feather-" + n,
     version,
     description: "",
-    keywords: ["feather", name],
+    keywords: ["feather", "icon", n],
     path: path.join(featherIconPath, name),
   });
 });
