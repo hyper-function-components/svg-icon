@@ -23,3 +23,27 @@
   <${HFC_DOC_ICON_NAME} size="44" color="green"></${HFC_DOC_ICON_NAME}>
 </template>
 ```
+
+```html render
+<template hfz import:${HFC_DOC_ICON_NAME}="dev">
+  <${HFC_DOC_ICON_NAME} size="44" fill="pink"></${HFC_DOC_ICON_NAME}>
+</template>
+```
+
+```html
+<template hfz import:${HFC_DOC_ICON_NAME}="dev">
+  <${HFC_DOC_ICON_NAME} size="44" fill="pink"></${HFC_DOC_ICON_NAME}>
+</template>
+```
+
+```html render
+<template hfz import:${HFC_DOC_ICON_NAME}="dev">
+  <${HFC_DOC_ICON_NAME} size="44" stroke="orange"></${HFC_DOC_ICON_NAME}>
+</template>
+```
+
+```html
+<template hfz import:${HFC_DOC_ICON_NAME}="dev">
+  <${HFC_DOC_ICON_NAME} size="44" stroke="orange"></${HFC_DOC_ICON_NAME}>
+</template>
+```

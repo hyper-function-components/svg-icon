@@ -3,7 +3,7 @@ import props from "hfc-prop-names";
 const svgAttrs: [string, string][] = process.env.HFC_PUBLIC_SVG_ATTRS as any;
 const svgHtml: string = process.env.HFC_PUBLIC_SVG_HTML as string;
 
-export default class AwesomeHfc {
+export default class HfcSvgIcon {
   static tag = "svg";
   static props = props;
   constructor(public container: SVGElement, props: HfcProps) {
@@ -26,11 +26,6 @@ export default class AwesomeHfc {
 
     if (props.attrs.class) {
       this.container.setAttributeNS(null, "class", props.attrs.class);
-    }
-
-    if (props.attrs.color) {
-      this.container.style.fill = props.attrs.color;
-      this.container.style.color = props.attrs.color;
     }
 
     bindToElement(this.container, props.others);

@@ -28,7 +28,9 @@
     "@sicons/tabler": "^0.12.0",
     "cheerio": "^1.0.0-rc.12",
     "es-main": "^1.2.0",
+    "feather-icons": "^4.29.0",
     "fs-extra": "^10.1.0",
+    "heroicons": "^1.0.6",
     "hfc-plugin-typescript": "^1.0.2",
     "hfc-prop-names": "^1.0.3",
     "node-localstorage": "^2.2.1",
@@ -36,8 +38,5 @@
   },
   "optionalDependencies": {
     "@types/hyper-function-component": "^2.0.0"
-  },
-  "dependencies": {
-    "feather-icons": "^4.29.0"
   }
 }

@@ -22,5 +22,5 @@ export default {
         HFC_PUBLIC_SVG_ATTRS: SVG_ATTRS,
         HFC_PUBLIC_SVG_HTML: SVG_HTML,
       },
-  docEnv: {},
+  docEnv,
 };

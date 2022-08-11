@@ -10,6 +10,8 @@ const faIconPath = path.join("node_modules", "@sicons/fa");
 const tablerIconPath = path.join("node_modules", "@sicons/tabler");
 const carbonIconPath = path.join("node_modules", "@sicons/carbon");
 const featherIconPath = path.join("node_modules", "feather-icons/dist/icons");
+const heroOutlineIconPath = path.join("node_modules", "heroicons/outline");
+const heroSolidIconPath = path.join("node_modules", "heroicons/solid");
 
 const ionicons4Svgs = fs.readdirSync(ionicons4IconPath);
 const ionicons5Svgs = fs.readdirSync(ionicons5IconPath);
@@ -19,6 +21,8 @@ const faSvgs = fs.readdirSync(faIconPath);
 const tablerSvgs = fs.readdirSync(tablerIconPath);
 const carbonSvgs = fs.readdirSync(carbonIconPath);
 const featherSvgs = fs.readdirSync(featherIconPath);
+const heroOutlineSvgs = fs.readdirSync(heroOutlineIconPath);
+const heroSolidSvgs = fs.readdirSync(heroSolidIconPath);
 
 const icons = [];
 
@@ -132,6 +136,32 @@ featherSvgs.forEach((name) => {
     description: "",
     keywords: ["feather", "icon", n],
     path: path.join(featherIconPath, name),
+  });
+});
+
+heroOutlineSvgs.forEach((name) => {
+  if (!name.endsWith(".svg")) return;
+
+  const n = name.split(".")[0];
+  icons.push({
+    name: "hero-icon-" + n + "-outline",
+    version,
+    description: "",
+    keywords: ["hero", "icon", n],
+    path: path.join(heroOutlineIconPath, name),
+  });
+});
+
+heroSolidSvgs.forEach((name) => {
+  if (!name.endsWith(".svg")) return;
+
+  const n = name.split(".")[0];
+  icons.push({
+    name: "hero-icon-" + n + "-solid",
+    version,
+    description: "",
+    keywords: ["hero", "icon", n],
+    path: path.join(heroSolidIconPath, name),
   });
 });
 
