@@ -30,7 +30,7 @@ async function publishIcon(icon) {
     return;
   }
 
-  const { SVG_ATTRS, SVG_HTML } = parseSvg(icon.path);
+  const { SVG_ATTRS, SVG_HTML } = parseSvg(icon.path, icon.name);
 
   console.log("building icon:", icon.name, icon.version);
   const env = {
@@ -73,7 +73,7 @@ async function publishIcon(icon) {
   }
 }
 
-export function parseSvg(filePath) {
+export function parseSvg(filePath, name) {
   const svg = fs.readFileSync(filePath, "utf8");
 
   const elem = load(svg)("svg");
@@ -83,6 +83,7 @@ export function parseSvg(filePath) {
   delete attrs.xlink;
   delete attrs.version;
   delete attrs.class;
+  elem.addClass(name);
 
   const SVG_ATTRS = JSON.stringify(Object.entries(attrs));
   const SVG_HTML = JSON.stringify(

@@ -12,6 +12,8 @@ const carbonIconPath = path.join("node_modules", "@sicons/carbon");
 const featherIconPath = path.join("node_modules", "feather-icons/dist/icons");
 const heroOutlineIconPath = path.join("node_modules", "heroicons/outline");
 const heroSolidIconPath = path.join("node_modules", "heroicons/solid");
+const fluentIconPath = path.join("node_modules", "@fluentui/svg-icons/icons");
+const fluentEmojiPath = path.join("node_modules", "fluentui-emoji-svgs/icons");
 
 const ionicons4Svgs = fs.readdirSync(ionicons4IconPath);
 const ionicons5Svgs = fs.readdirSync(ionicons5IconPath);
@@ -23,10 +25,51 @@ const carbonSvgs = fs.readdirSync(carbonIconPath);
 const featherSvgs = fs.readdirSync(featherIconPath);
 const heroOutlineSvgs = fs.readdirSync(heroOutlineIconPath);
 const heroSolidSvgs = fs.readdirSync(heroSolidIconPath);
+const fluentSvgs = fs
+  .readdirSync(fluentIconPath)
+  .filter((item) => item.endsWith(".svg"));
+const fluentEmojiSvgs = fs.readdirSync(fluentEmojiPath);
 
 const icons = [];
 
-const version = "1.3.0";
+const version = "2.0.0";
+
+fluentEmojiSvgs.forEach((svgFileName) => {
+  const name = svgFileName.replace(".svg", "");
+
+  icons.push({
+    name: "fluentui-emoji-" + name,
+    version,
+    description: "",
+    keywords: ["fluentui", "emoji", name],
+    path: path.join(fluentEmojiPath, svgFileName),
+  });
+});
+
+const parsedFluentIcons = {};
+fluentSvgs.forEach((svgFileName) => {
+  const arr = svgFileName.split(".")[0].split("_");
+  const size = arr[arr.length - 2];
+  const type = arr[arr.length - 1];
+  const name = arr.slice(0, arr.length - 2).join("-") + "-" + type;
+
+  parsedFluentIcons[name] = {
+    name,
+    type,
+    size,
+    path: path.join(fluentIconPath, svgFileName),
+  };
+});
+
+Object.values(parsedFluentIcons).forEach((icon) => {
+  icons.push({
+    name: "fluentui-icon-" + icon.name,
+    version,
+    description: "",
+    keywords: ["fluentui", "icon", icon.name],
+    path: icon.path,
+  });
+});
 
 ionicons4Svgs.forEach((name) => {
   if (!name.endsWith(".svg")) return;
