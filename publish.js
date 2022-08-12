@@ -56,6 +56,11 @@ async function publishIcon(icon) {
     });
   } catch (error) {
     console.log("build failed", icon.name, icon.version, error.message);
+    publishFailed.push({
+      ...icon,
+      reason: error.message,
+    });
+    writeFaild();
     return;
   }
 
@@ -78,7 +83,11 @@ async function publishIcon(icon) {
     localStorage.setItem(publishKey, true);
   } else {
     console.log(out);
-    publishFailed.push(icon);
+    publishFailed.push({
+      ...icon,
+      reason: out,
+    });
+    writeFaild();
     console.log(icon.name, "publish failed");
   }
 }
@@ -115,13 +124,13 @@ async function run() {
   for (const icon of icons) {
     await publishIcon(icon);
   }
+}
 
-  if (publishFailed.length) {
-    fs.writeFileSync(
-      "publish-failed.json",
-      JSON.stringify(publishFailed, null, 2)
-    );
-  }
+function writeFaild() {
+  fs.writeFileSync(
+    "publish-failed.json",
+    JSON.stringify(publishFailed, null, 2)
+  );
 }
 
 if (esMain(import.meta)) {
