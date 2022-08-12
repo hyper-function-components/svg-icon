@@ -49,10 +49,16 @@ async function publishIcon(icon) {
   env.HFC_KEYWORDS = (icon.keywords || []).join(",");
 
   const startTime = Date.now();
-  execSync(`npm run build`, {
-    cwd: process.cwd(),
-    env,
-  });
+  try {
+    execSync(`npm run build`, {
+      cwd: process.cwd(),
+      env,
+    });
+  } catch (error) {
+    console.log("build failed", icon.name, icon.version, error.message);
+    return;
+  }
+
   console.log("build done, used:", Date.now() - startTime, "ms");
 
   await fs.copy(icon.path, join(process.cwd(), "banner.svg"));
@@ -64,7 +70,11 @@ async function publishIcon(icon) {
     env,
   }).toString();
   if (out.includes("success")) {
-    console.log(icon.name, "published, used:", Date.now() - startTime2, "ms");
+    console.log(
+      "publish " + icon.name + " success, used:",
+      Date.now() - startTime2,
+      "ms"
+    );
     localStorage.setItem(publishKey, true);
   } else {
     console.log(out);
